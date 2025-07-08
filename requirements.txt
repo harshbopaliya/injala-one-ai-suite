@@ -1,20 +1,11 @@
-# Core UI framework
 streamlit
-
-# PDF and OCR processing
 pytesseract
 PyMuPDF
 Pillow
 reportlab
-
-# Data handling
 pandas
 numpy
-
-# Gemini API + Google Generative AI
 google-generativeai
 google-ai-generativelanguage
-
-# HTTP requests and environment management
 requests
 python-dotenv
