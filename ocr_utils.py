@@ -2,7 +2,6 @@
 
 import io
 from typing import List
-
 import pytesseract
 from PIL import Image, ImageOps
 import fitz  # PyMuPDF
@@ -63,11 +62,11 @@ def run_ocr_on_images(images: List[Image.Image], lang: str = "eng") -> str:
         OCRProcessingError: If OCR fails on all images.
     """
     extracted_text = []
-    config = "--psm 6"  # Assume uniform block of text
+    config = "--psm 6"  # Assume a uniform block of text for best page OCR
 
     for idx, img in enumerate(images, start=1):
         try:
-            # Convert to grayscale for better OCR accuracy
+            # Convert to grayscale for improved OCR accuracy
             gray_img = ImageOps.grayscale(img)
             text = pytesseract.image_to_string(gray_img, lang=lang, config=config)
             extracted_text.append(text.strip())
@@ -75,7 +74,8 @@ def run_ocr_on_images(images: List[Image.Image], lang: str = "eng") -> str:
             print(f"[WARN] OCR failed on image {idx}: {e}")
             extracted_text.append("")
 
-    combined_text = "\n\n".join(extracted_text).strip()
+    combined_text = "\n\n".join(filter(None, extracted_text)).strip()
+
     if not combined_text:
         raise OCRProcessingError("OCR did not extract any text from the images.")
 
